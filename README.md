@@ -27,7 +27,7 @@ Local file organization tool with ML-powered video analysis.
 
 - Node.js 18+
 - Rust 1.77+
-- Python 3.10+
+- Python 3.11+
 
 ### Setup
 
