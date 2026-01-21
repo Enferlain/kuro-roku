@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import "./styles/App.css";
+import styles from "./App.module.css";
 
 function App() {
   const [greeting, setGreeting] = useState<string>("");
@@ -21,22 +21,22 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <header className="app-header">
+    <div className={styles.app}>
+      <header className={styles.header}>
         <h1>黒録 Kuro-Roku</h1>
-        <p className="subtitle">Local File Organizer</p>
+        <p className={styles.subtitle}>Local File Organizer</p>
       </header>
 
-      <main className="app-main">
+      <main className={styles.main}>
         {isLoading ? (
-          <div className="loading">Connecting to backend...</div>
+          <div className={styles.loading}>Connecting to backend...</div>
         ) : (
-          <div className="status">
+          <div className={styles.status}>
             <p>{greeting}</p>
           </div>
         )}
 
-        <section className="placeholder">
+        <section className={styles.placeholder}>
           <h2>Coming Soon</h2>
           <ul>
             <li>📁 File Browser</li>

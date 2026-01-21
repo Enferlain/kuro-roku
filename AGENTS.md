@@ -12,15 +12,15 @@ Kuro-Roku is a local-first file organization tool with ML-powered video analysis
 
 Read `docs/ARCHITECTURE.md` for detailed technical documentation. Quick summary:
 
-| Layer      | Technology                | Location         |
-| ---------- | ------------------------- | ---------------- |
-| Desktop    | Tauri v2                  | `src-tauri/`     |
-| Frontend   | React 19.2.3              | `src/`           |
-| Frontend   | Vite 7.3.1                | `src/`           |
-| Frontend   | TypeScript 5.9.3          | `src/`           |
-| Backend    | Rust 1.89                 | `src-tauri/src/` |
-| ML Sidecar | Python 3.13 (3.11+)       | `python/`        |
-| Database   | SQLite + Qdrant           | Runtime          |
+| Layer      | Technology          | Location         |
+| ---------- | ------------------- | ---------------- |
+| Desktop    | Tauri v2            | `src-tauri/`     |
+| Frontend   | React 19.2.3        | `src/`           |
+| Frontend   | Vite 7.3.1          | `src/`           |
+| Frontend   | TypeScript 5.9.3    | `src/`           |
+| Backend    | Rust 1.89           | `src-tauri/src/` |
+| ML Sidecar | Python 3.13 (3.11+) | `python/`        |
+| Database   | SQLite + Qdrant     | Runtime          |
 
 ## Development Commands
 
@@ -107,7 +107,20 @@ python/
 - Functional components with hooks
 - Path alias `@/` maps to `src/`
 - Zustand for state management (when needed)
-- CSS Modules or plain CSS (no Tailwind unless explicitly requested)
+- **CSS Modules** (preferred) for component styles
+  - Global theme variables in `src/styles/index.css`
+  - Component-scoped styles in `ComponentName.module.css`
+  - Use `import styles from './Component.module.css'`
+  - Example structure:
+    ```
+    components/
+    ├── FileBrowser/
+    │   ├── FileBrowser.tsx
+    │   └── FileBrowser.module.css  (scoped styles)
+    ```
+  - Prevents naming conflicts as the app grows
+  - TypeScript autocompletes class names
+  - Keeps styles co-located with components
 
 ### Python
 
