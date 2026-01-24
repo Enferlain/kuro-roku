@@ -1,52 +1,59 @@
-import { useState, useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
-import styles from "./App.module.css";
+import { Sidebar } from "@/components/Sidebar";
+import { FileGrid } from "@/components/FileGrid";
+import { DetailsPanel } from "@/components/DetailsPanel";
+import { useFileStore } from "@/stores/fileStore";
+import { Search, Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 function App() {
-  const [greeting, setGreeting] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Test connection to Rust backend
-    invoke<string>("greet", { name: "Kuro-Roku" })
-      .then((response) => {
-        setGreeting(response);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Failed to connect to backend:", error);
-        setGreeting("Backend not connected");
-        setIsLoading(false);
-      });
-  }, []);
+  const { currentPath } = useFileStore();
 
   return (
-    <div className={styles.app}>
-      <header className={styles.header}>
-        <h1>黒録 Kuro-Roku</h1>
-        <p className={styles.subtitle}>Local File Organizer</p>
-      </header>
+    <div className="flex h-screen bg-background text-foreground dark">
+      {/* Left: Navigation Sidebar */}
+      <Sidebar />
 
-      <main className={styles.main}>
-        {isLoading ? (
-          <div className={styles.loading}>Connecting to backend...</div>
-        ) : (
-          <div className={styles.status}>
-            <p>{greeting}</p>
+      {/* Center: Main Content */}
+      <main className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <header className="h-14 border-b border-border flex items-center justify-between px-4 bg-card/50">
+          <div className="flex items-center gap-4">
+            <h2 className="text-sm font-medium">
+              {currentPath ? "Library" : "Welcome"}
+            </h2>
+            {currentPath && (
+              <p className="text-xs text-muted-foreground font-mono truncate max-w-md">
+                {currentPath}
+              </p>
+            )}
           </div>
-        )}
 
-        <section className={styles.placeholder}>
-          <h2>Coming Soon</h2>
-          <ul>
-            <li>📁 File Browser</li>
-            <li>🎬 Video Analysis (Qwen3-VL)</li>
-            <li>🎤 Transcription</li>
-            <li>🏷️ Smart Tagging</li>
-            <li>🔍 Semantic Search</li>
-          </ul>
-        </section>
+          <div className="flex items-center gap-2">
+            {/* Search */}
+            <div className="relative">
+              <Search
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+              />
+              <input
+                type="text"
+                placeholder="Search library..."
+                className="w-64 bg-muted border border-border rounded-md py-1.5 pl-9 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              />
+            </div>
+
+            <Button variant="ghost" size="icon">
+              <Settings size={18} />
+            </Button>
+          </div>
+        </header>
+
+        {/* File Grid */}
+        <FileGrid />
       </main>
+
+      {/* Right: Details Panel */}
+      <DetailsPanel />
     </div>
   );
 }
