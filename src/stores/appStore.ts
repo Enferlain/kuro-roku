@@ -1,36 +1,25 @@
-// File store - state management for file browsing
+// App store - global application state
 
 import { create } from "zustand";
+import { AppTab, ViewMode, ScannedFile } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 
-export type FileType = "video" | "image" | "audio" | "document" | "other";
-export type ViewState = "library" | "manifest" | "queue" | "analytics";
+interface AppState {
+  // Navigation
+  activeTab: AppTab;
+  setActiveTab: (tab: AppTab) => void;
 
-export interface ScannedFile {
-  path: string;
-  file_name: string;
-  file_extension: string;
-  file_type: FileType;
-  file_size: number;
-  created_at: string;
-  modified_at: string;
-}
+  // Library view mode
+  viewMode: ViewMode;
+  setViewMode: (mode: ViewMode) => void;
 
-interface FileStore {
-  // View state
-  currentView: ViewState;
-  setCurrentView: (view: ViewState) => void;
-
-  // Current path
+  // Current path and files
   currentPath: string | null;
-  setCurrentPath: (path: string | null) => void;
-
-  // File list
   files: ScannedFile[];
   isScanning: boolean;
   scanError: string | null;
 
-  // Selected file (for details panel)
+  // Selection
   selectedFile: ScannedFile | null;
   setSelectedFile: (file: ScannedFile | null) => void;
 
@@ -39,20 +28,26 @@ interface FileStore {
   scanDirectory: (path: string) => Promise<void>;
 }
 
-export const useFileStore = create<FileStore>((set, get) => ({
-  currentView: "library",
-  setCurrentView: (view) => set({ currentView: view }),
+export const useAppStore = create<AppState>((set, get) => ({
+  // Navigation
+  activeTab: "library",
+  setActiveTab: (tab) => set({ activeTab: tab }),
 
+  // View mode
+  viewMode: "grid",
+  setViewMode: (mode) => set({ viewMode: mode }),
+
+  // Files
   currentPath: null,
-  setCurrentPath: (path) => set({ currentPath: path }),
-
   files: [],
   isScanning: false,
   scanError: null,
 
+  // Selection
   selectedFile: null,
   setSelectedFile: (file) => set({ selectedFile: file }),
 
+  // Actions
   selectDirectory: async () => {
     try {
       const path = await invoke<string | null>("select_directory");

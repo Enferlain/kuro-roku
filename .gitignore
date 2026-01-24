@@ -47,3 +47,6 @@ src-tauri/target/
 
 # Qdrant data
 qdrant_data/
+
+# References
+ui_references/

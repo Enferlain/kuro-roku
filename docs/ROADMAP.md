@@ -6,7 +6,20 @@
 
 **Phase 1: Foundation** - In Progress
 
-The core scaffolding is complete with database, file system commands, and basic UI layout implemented.
+Core scaffolding complete. UI architecture defined.
+
+---
+
+## UI Architecture
+
+See [UI_ARCHITECTURE.md](./UI_ARCHITECTURE.md) for complete details.
+
+| Tab           | Purpose                                         |
+| ------------- | ----------------------------------------------- |
+| **Library**   | Browse, view, select files (Grid/List/TreeMap)  |
+| **Staging**   | Queue management, configure & launch processing |
+| **Monitor**   | Processing progress, system metrics             |
+| **Workbench** | Manifest review, duplicates, cleanup            |
 
 ---
 
@@ -18,7 +31,7 @@ The core scaffolding is complete with database, file system commands, and basic 
 - [x] File system Tauri commands (scan, hash, metadata)
 - [x] Data models (FileEntry, ScannedFile, FileType)
 
-### Phase 1.2 - Basic UI Layout
+### Phase 1.2 - Basic UI Scaffold
 
 - [x] 3-column layout (Sidebar | Content | Details)
 - [x] Zustand store for file state
@@ -30,54 +43,41 @@ The core scaffolding is complete with database, file system commands, and basic 
 
 ## In Progress 🚧
 
-### Phase 1.2 - UI Polish
+### Phase 1.3 - Library Tab (Full Implementation)
 
-- [ ] Test scan functionality with Tauri backend
-- [ ] Improve visual styling (colors, spacing, typography)
-- [ ] Hide details panel when no file selected
-- [ ] Add view toggle (grid/list)
-- [ ] Sort/filter options in header
+- [ ] Header with tab navigation (Library active)
+- [ ] Explorer-style sidebar (pinned, recent, sources, tags)
+- [ ] Grid/List/TreeMap view toggles
+- [ ] Improved visual design (per library_sketch reference)
+- [ ] Wire scan functionality to Tauri backend
+- [ ] Index files to database on scan
 
 ---
 
 ## Upcoming 📋
 
-### Phase 1.3 - File Indexing
+### Phase 2 - Staging Tab
 
-- [ ] Index scanned files to SQLite database
-- [ ] Display indexed vs pending status
-- [ ] File deduplication (BLAKE3 hash comparison)
-- [ ] Basic file type statistics
+- [ ] Queue list view
+- [ ] Add to queue action from Library
+- [ ] Configure processing options
+- [ ] Start processing action
 
-### Phase 2 - Processing Queue View
+### Phase 3 - Monitor Tab
 
-- [ ] Processing queue UI (from ui_sketches.md)
-- [ ] Task status display (pending, processing, completed, failed)
-- [ ] VRAM/GPU usage indicators
-- [ ] Estimated completion time
+- [ ] Active task progress display
+- [ ] GPU/VRAM usage indicators
+- [ ] Processing history/log
+- [ ] Library health metrics
 
-### Phase 3 - Manifest Review View
+### Phase 4 - Workbench Tab
 
-- [ ] Manifest review UI (from ui_sketches.md)
-- [ ] Proposed actions display (move, tag, dedupe)
+- [ ] Manifest review (proposed actions)
 - [ ] Approve/reject workflow
-- [ ] Batch execution
+- [ ] Duplicate resolution (Czkawka-style comparison)
+- [ ] Bulk operations execution
 
-### Phase 4 - Analytics View (WizTree-inspired)
-
-- [ ] Treemap visualization for storage breakdown
-- [ ] File type statistics
-- [ ] Extension breakdown with bar charts
-- [ ] Color by file type or AI category
-
-### Phase 5 - Duplicate Resolution (Czkawka-inspired)
-
-- [ ] Side-by-side comparison view
-- [ ] Metadata comparison (size, date, hash)
-- [ ] Action selection (keep, delete, hardlink)
-- [ ] Batch duplicate resolution
-
-### Phase 6 - Python Sidecar (ML)
+### Phase 5 - Python Sidecar (ML)
 
 - [ ] FastAPI server setup
 - [ ] Qwen3-VL integration for video analysis
@@ -89,36 +89,24 @@ The core scaffolding is complete with database, file system commands, and basic 
 
 ## Design References
 
-See `ui_sketches.md` for ASCII mockups of:
-
-- Library view (3-column layout) ✅ Implemented
-- Video detail view
-- Processing queue view
-- Manifest review view
-- WizTree-inspired analytics
-- Czkawka-inspired duplicate resolution
+- `ui_references/library_sketch/` - Detailed Library view reference
+- `ui_references/ui_sketches.md` - ASCII layouts for other views
 
 ---
 
 ## Notes for Future Sessions
 
-1. **UI-first approach**: Build UI components first, connect to backend as needed
-2. **Tailwind + shadcn**: Project uses Tailwind CSS v4 with shadcn/ui components
-3. **CSS Modules**: Available for custom component styling alongside shadcn
+1. **UI-first approach**: Build UI, connect backend as needed
+2. **Tailwind + shadcn**: Tailwind v4 with shadcn/ui components
+3. **Staging is mandatory**: No automatic processing
 4. **Tauri commands ready**: `select_directory`, `scan_directory`, `get_file_info`, `hash_file`
-5. **Database ready**: SQLite schema in place, just needs to be used
 
 ---
 
-## Quick Start Commands
+## Quick Start
 
 ```bash
-# Frontend development (Vite only)
-npm run dev
-
-# Full app with Tauri backend
-npm run tauri dev
-
-# Rust tests
-cd src-tauri && cargo test
+npm run dev          # Frontend only (Vite)
+npm run tauri dev    # Full app with backend
+cd src-tauri && cargo test  # Rust tests
 ```

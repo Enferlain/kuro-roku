@@ -1,0 +1,338 @@
+/* ==========================================================================
+   KURO-ROKU DESIGN SYSTEM
+   
+   A structured, themeable design system following established patterns.
+   
+   TABLE OF CONTENTS:
+   1. Base Palette (Raw colors, theme-agnostic)
+   2. Semantic Tokens (Light Mode defaults)
+   3. Dark Theme Overrides
+   4. Component Tokens
+   5. Tailwind Bridge (@theme inline)
+   6. Utilities
+   ========================================================================== */
+
+@theme {
+  /* ========================================================================
+     1. BASE PALETTE
+     Raw color values - these are theme-agnostic building blocks
+     ======================================================================== */
+
+  /* Kuro Scale (Deep purples/blacks for dark theme) */
+  --color-kuro-900: #020203;
+  --color-kuro-800: #050506;
+  --color-kuro-700: #0a0a0c;
+  --color-kuro-600: #0f0f12;
+  --color-kuro-500: #161619;
+  --color-kuro-400: #1e1e22;
+  --color-kuro-300: #26262b;
+  --color-kuro-200: #2e2e34;
+  --color-kuro-100: #3a3a42;
+
+  /* Smoke Scale (Grays) */
+  --color-smoke-100: #f3f3f3;
+  --color-smoke-200: #e9e9e9;
+  --color-smoke-300: #d9d9d9;
+  --color-smoke-400: #c5c5c5;
+  --color-smoke-500: #a0a0a0;
+  --color-smoke-600: #8a8a8a;
+  --color-smoke-700: #6a6a6a;
+  --color-smoke-800: #4a4a4a;
+
+  /* Slate Scale (Cool muted tones) */
+  --color-slate-100: #ededef;
+  --color-slate-200: #d0d0d6;
+  --color-slate-300: #b0b0ba;
+  --color-slate-400: #8a8f98;
+  --color-slate-500: #6b7080;
+  --color-slate-600: #4b5060;
+  --color-slate-700: #3a3f4a;
+  --color-slate-800: #2a2f3a;
+
+  /* Violet Scale (Primary accent) */
+  --color-violet-100: #ede9fe;
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #6d28d9;
+  --color-violet-800: #5b21b6;
+
+  /* Azure Scale (Info/secondary accent) */
+  --color-azure-300: #7dd3fc;
+  --color-azure-400: #38bdf8;
+  --color-azure-500: #0ea5e9;
+  --color-azure-600: #0284c7;
+
+  /* Jade Scale (Success) */
+  --color-jade-300: #86efac;
+  --color-jade-400: #4ade80;
+  --color-jade-500: #22c55e;
+  --color-jade-600: #16a34a;
+
+  /* Gold Scale (Warning) */
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+
+  /* Coral Scale (Error/Destructive) */
+  --color-coral-300: #fca5a5;
+  --color-coral-400: #f87171;
+  --color-coral-500: #ef4444;
+  --color-coral-600: #dc2626;
+
+  /* Neutrals */
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
+
+
+:root {
+  /* ========================================================================
+     2. SEMANTIC TOKENS (Light Mode - defaults)
+     These reference the base palette and give meaning to colors
+     ======================================================================== */
+
+  /* Foreground (Text) */
+  --base-foreground: var(--color-kuro-800);
+  --secondary-foreground: var(--color-slate-600);
+  --muted-foreground: var(--color-slate-400);
+  --inverted-foreground: var(--color-white);
+
+  /* Background */
+  --base-background: var(--color-white);
+  --secondary-background: var(--color-smoke-200);
+  --secondary-background-hover: var(--color-smoke-300);
+  --secondary-background-selected: var(--color-smoke-400);
+  --elevated-background: var(--color-white);
+
+  /* Primary Accent */
+  --primary-color: var(--color-violet-500);
+  --primary-color-hover: var(--color-violet-400);
+  --primary-color-active: var(--color-violet-600);
+  --primary-foreground: var(--color-white);
+
+  /* Status Colors */
+  --success-color: var(--color-jade-500);
+  --success-background: var(--color-jade-500);
+  --warning-color: var(--color-gold-500);
+  --warning-background: var(--color-gold-500);
+  --error-color: var(--color-coral-500);
+  --error-background: var(--color-coral-500);
+  --info-color: var(--color-azure-500);
+  --info-background: var(--color-azure-500);
+
+  /* Borders */
+  --border-default: var(--color-smoke-400);
+  --border-subtle: var(--color-smoke-300);
+  --border-strong: var(--color-smoke-600);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+  /* File Type Colors */
+  --file-video: var(--color-violet-400);
+  --file-image: var(--color-azure-400);
+  --file-audio: var(--color-jade-400);
+  --file-document: var(--color-gold-400);
+  --file-other: var(--color-slate-400);
+}
+
+
+.dark {
+  /* ========================================================================
+     3. DARK THEME OVERRIDES
+     Override semantic tokens for dark mode
+     ======================================================================== */
+
+  /* Foreground (Text) */
+  --base-foreground: var(--color-slate-100);
+  --secondary-foreground: var(--color-slate-200);
+  --muted-foreground: var(--color-slate-400);
+  --inverted-foreground: var(--color-kuro-800);
+
+  /* Background */
+  --base-background: var(--color-kuro-800);
+  --secondary-background: var(--color-kuro-600);
+  --secondary-background-hover: var(--color-kuro-500);
+  --secondary-background-selected: var(--color-kuro-400);
+  --elevated-background: var(--color-kuro-700);
+
+  /* Primary Accent (slightly brighter for dark mode) */
+  --primary-color: var(--color-violet-500);
+  --primary-color-hover: var(--color-violet-400);
+  --primary-color-active: var(--color-violet-600);
+  --primary-foreground: var(--color-white);
+
+  /* Borders */
+  --border-default: var(--color-kuro-100);
+  --border-subtle: var(--color-kuro-200);
+  --border-strong: var(--color-slate-600);
+
+  /* Shadows (darker in dark mode) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ========================================================================
+   4. COMPONENT TOKENS
+   More specific tokens for UI components
+   ======================================================================== */
+
+:root, .dark {
+  /* Interface/Panel */
+  --panel-background: var(--elevated-background);
+  --panel-border: var(--border-subtle);
+  --panel-shadow: var(--shadow-lg);
+
+  /* Cards */
+  --card-background: var(--elevated-background);
+  --card-background-hover: var(--secondary-background-hover);
+  --card-border: var(--border-subtle);
+
+  /* Buttons */
+  --button-primary-background: var(--primary-color);
+  --button-primary-background-hover: var(--primary-color-hover);
+  --button-primary-foreground: var(--primary-foreground);
+  --button-secondary-background: var(--secondary-background);
+  --button-secondary-background-hover: var(--secondary-background-hover);
+  --button-secondary-foreground: var(--base-foreground);
+  --button-ghost-background: transparent;
+  --button-ghost-background-hover: var(--secondary-background);
+
+  /* Inputs */
+  --input-background: var(--secondary-background);
+  --input-border: var(--border-default);
+  --input-border-focus: var(--primary-color);
+  --input-foreground: var(--base-foreground);
+  --input-placeholder: var(--muted-foreground);
+
+  /* Sidebar */
+  --sidebar-background: var(--base-background);
+  --sidebar-item-hover: var(--secondary-background-hover);
+  --sidebar-item-active: var(--secondary-background-selected);
+  --sidebar-section-header: var(--muted-foreground);
+
+  /* Header */
+  --header-background: transparent;
+  --header-nav-background: var(--secondary-background);
+  --header-nav-active: var(--secondary-background-selected);
+
+  /* Badges */
+  --badge-neutral-background: var(--secondary-background);
+  --badge-neutral-foreground: var(--muted-foreground);
+  --badge-success-background: rgba(34, 197, 94, 0.15);
+  --badge-success-foreground: var(--color-jade-400);
+  --badge-warning-background: rgba(245, 158, 11, 0.15);
+  --badge-warning-foreground: var(--color-gold-400);
+  --badge-error-background: rgba(239, 68, 68, 0.15);
+  --badge-error-foreground: var(--color-coral-400);
+  --badge-info-background: rgba(14, 165, 233, 0.15);
+  --badge-info-foreground: var(--color-azure-400);
+}
+
+
+@theme inline {
+  /* ========================================================================
+     5. TAILWIND BRIDGE
+     Map semantic tokens to Tailwind-consumable --color-* variables
+     ======================================================================== */
+
+  /* Foreground */
+  --color-foreground: var(--base-foreground);
+  --color-base-foreground: var(--base-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-inverted-foreground: var(--inverted-foreground);
+
+  /* Background */
+  --color-background: var(--base-background);
+  --color-base-background: var(--base-background);
+  --color-secondary-background: var(--secondary-background);
+  --color-secondary-background-hover: var(--secondary-background-hover);
+  --color-secondary-background-selected: var(--secondary-background-selected);
+  --color-elevated-background: var(--elevated-background);
+
+  /* Primary */
+  --color-primary: var(--primary-color);
+  --color-primary-hover: var(--primary-color-hover);
+  --color-primary-active: var(--primary-color-active);
+  --color-primary-foreground: var(--primary-foreground);
+
+  /* Accent (alias to primary) */
+  --color-accent: var(--primary-color);
+  --color-accent-foreground: var(--primary-foreground);
+
+  /* Status */
+  --color-success: var(--success-color);
+  --color-warning: var(--warning-color);
+  --color-error: var(--error-color);
+  --color-info: var(--info-color);
+
+  /* Borders */
+  --color-border: var(--border-default);
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+
+  /* Cards/Panels */
+  --color-card: var(--card-background);
+  --color-card-foreground: var(--base-foreground);
+  --color-panel: var(--panel-background);
+
+  /* Inputs */
+  --color-input: var(--input-background);
+  --color-ring: var(--primary-color);
+
+  /* File Types */
+  --color-file-video: var(--file-video);
+  --color-file-image: var(--file-image);
+  --color-file-audio: var(--file-audio);
+  --color-file-document: var(--file-document);
+  --color-file-other: var(--file-other);
+
+  /* Muted (for shadcn compatibility) */
+  --color-muted: var(--secondary-background);
+
+  /* Popover (for shadcn compatibility) */
+  --color-popover: var(--elevated-background);
+  --color-popover-foreground: var(--base-foreground);
+
+  /* Destructive */
+  --color-destructive: var(--error-color);
+}
+
+
+/* ========================================================================
+   6. UTILITIES & GLOBAL STYLES
+   ======================================================================== */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-default);
+}
+
+/* Selection */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: inherit;
+}

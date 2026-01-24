@@ -169,6 +169,8 @@ cd python && pytest
 | File                        | Purpose                      |
 | --------------------------- | ---------------------------- |
 | `docs/ARCHITECTURE.md`      | Full technical documentation |
+| `docs/UI_ARCHITECTURE.md`   | UI architecture documentation|
+| `docs/STYLING_GUIDE.md`     | Styling documentation        |
 | `CHANGELOG.md`              | Version history              |
 | `src-tauri/Cargo.toml`      | Rust dependencies            |
 | `package.json`              | Node dependencies & scripts  |
