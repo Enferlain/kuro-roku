@@ -9,10 +9,17 @@ import {
   CheckCircle2,
   Circle,
   Maximize2,
+  Share2,
+  Download,
+  MoreHorizontal,
+  Play,
 } from "lucide-react";
 import { useAppStore } from "@/stores/appStore";
 import { Button, Badge } from "@/components/ui/shared";
 import { ScrollArea } from "@/components/ui/scroll-area";
+// CSS Module - will be used in subsequent tasks
+// @ts-expect-error - CSS module imported for future use
+import styles from "./LibraryDetails.module.css";
 
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return "0 B";
@@ -69,22 +76,40 @@ export function LibraryDetails() {
   };
 
   return (
-    <aside className="w-80 flex flex-col h-full pt-4 pb-6 pl-2 pr-4">
+    <aside className="w-80 flex flex-col h-full pt-6 pb-6 pl-3 pr-6 shrink-0">
       <div className="flex-1 flex flex-col bg-elevated-background/50 backdrop-blur-xl border border-border-subtle rounded-2xl overflow-hidden shadow-xl">
         {/* Header */}
         <div className="p-4 flex items-center justify-between border-b border-border-subtle">
           <h2 className="text-xs font-mono text-muted-foreground tracking-widest opacity-60">
             PROPERTIES
           </h2>
+          <div className="flex items-center gap-1">
+            <button className="p-1.5 hover:bg-secondary-background-hover rounded-lg text-muted-foreground hover:text-foreground transition-colors">
+              <Share2 size={14} />
+            </button>
+            <button className="p-1.5 hover:bg-secondary-background-hover rounded-lg text-muted-foreground hover:text-foreground transition-colors">
+              <Download size={14} />
+            </button>
+            <button className="p-1.5 hover:bg-secondary-background-hover rounded-lg text-muted-foreground hover:text-foreground transition-colors">
+              <MoreHorizontal size={14} />
+            </button>
+          </div>
         </div>
 
         <ScrollArea className="flex-1">
           {/* Preview */}
           <div className="p-4 pb-0">
             <div
-              className={`aspect-video w-full rounded-lg overflow-hidden border border-border-subtle ${bgColors[selectedFile.file_type]} flex items-center justify-center`}
+              className={`group relative aspect-video w-full rounded-lg overflow-hidden border border-border-subtle ${bgColors[selectedFile.file_type]} flex items-center justify-center cursor-pointer shadow-lg transition-transform duration-500 hover:scale-[1.02]`}
             >
               <FileVideo size={40} className="text-foreground/20" />
+              
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-background/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="w-12 h-12 rounded-full bg-secondary-background/50 backdrop-blur-md flex items-center justify-center border border-border-subtle hover:scale-110 transition-transform duration-200">
+                  <Play size={18} className="ml-0.5 text-foreground fill-foreground" />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -154,8 +179,12 @@ export function LibraryDetails() {
                 Tags
               </h4>
               <div className="flex flex-wrap gap-2">
+                {/* Example tags - these will come from IndexedFile.tags in the future */}
+                <span className="text-xs text-primary bg-primary/10 px-2.5 py-1 rounded-md border border-primary/20 hover:bg-primary/20 hover:border-primary/30 cursor-pointer transition-all">
+                  #sample
+                </span>
                 <button className="text-xs text-muted-foreground bg-transparent border border-dashed border-border-default px-2 py-1 rounded-md hover:text-foreground hover:border-border-strong transition-colors">
-                  + Add Tag
+                  + Add
                 </button>
               </div>
             </div>

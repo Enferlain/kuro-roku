@@ -107,20 +107,11 @@ python/
 - Functional components with hooks
 - Path alias `@/` maps to `src/`
 - Zustand for state management (when needed)
-- **CSS Modules** (preferred) for component styles
-  - Global theme variables in `src/styles/index.css`
-  - Component-scoped styles in `ComponentName.module.css`
-  - Use `import styles from './Component.module.css'`
-  - Example structure:
-    ```
-    components/
-    ├── FileBrowser/
-    │   ├── FileBrowser.tsx
-    │   └── FileBrowser.module.css  (scoped styles)
-    ```
-  - Prevents naming conflicts as the app grows
-  - TypeScript autocompletes class names
-  - Keeps styles co-located with components
+- **Tailwind CSS & shadcn/ui** (mandatory) for component styles
+  - Use Tailwind utility classes directly in `className`
+  - Use provided UI components from `@/components/ui`
+  - Follow the styling guidelines in `docs/STYLING_GUIDE.md`
+  - Do NOT use CSS modules or inline styles unless absolutely necessary
 
 ### Python
 
@@ -166,15 +157,15 @@ cd python && pytest
 
 ## Important Files
 
-| File                        | Purpose                      |
-| --------------------------- | ---------------------------- |
-| `docs/ARCHITECTURE.md`      | Full technical documentation |
-| `docs/UI_ARCHITECTURE.md`   | UI architecture documentation|
-| `docs/STYLING_GUIDE.md`     | Styling documentation        |
-| `CHANGELOG.md`              | Version history              |
-| `src-tauri/Cargo.toml`      | Rust dependencies            |
-| `package.json`              | Node dependencies & scripts  |
-| `src-tauri/tauri.conf.json` | Tauri configuration          |
+| File                        | Purpose                       |
+| --------------------------- | ----------------------------- |
+| `docs/ARCHITECTURE.md`      | Full technical documentation  |
+| `docs/UI_ARCHITECTURE.md`   | UI architecture documentation |
+| `docs/STYLING_GUIDE.md`     | Styling rules                 |
+| `CHANGELOG.md`              | Version history               |
+| `src-tauri/Cargo.toml`      | Rust dependencies             |
+| `package.json`              | Node dependencies & scripts   |
+| `src-tauri/tauri.conf.json` | Tauri configuration           |
 
 ## Common Tasks
 

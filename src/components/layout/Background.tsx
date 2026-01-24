@@ -7,17 +7,15 @@ export function Background() {
       {/* Layer 1: Base Gradient - uses design tokens */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--color-kuro-700)_0%,var(--color-kuro-800)_50%,var(--color-kuro-900)_100%)]" />
 
-      {/* Layer 2: Animated Blobs - using primary color */}
+      {/* Layer 2: Static Blobs - using primary color */}
       <div 
-        className="absolute top-[-10%] left-[30%] w-[1000px] h-[1000px] bg-primary/15 rounded-full blur-[150px] animate-pulse opacity-30" 
+        className="absolute top-[-10%] left-[30%] w-[1000px] h-[1000px] bg-primary/15 rounded-full blur-[150px] opacity-30" 
       />
       <div 
-        className="absolute top-[20%] right-[-10%] w-[800px] h-[800px] bg-violet-600/10 rounded-full blur-[120px] animate-pulse opacity-20" 
-        style={{ animationDelay: "2s" }} 
+        className="absolute top-[20%] right-[-10%] w-[800px] h-[800px] bg-violet-600/10 rounded-full blur-[120px] opacity-20" 
       />
       <div 
-        className="absolute bottom-[-10%] left-[-10%] w-[900px] h-[900px] bg-azure-600/10 rounded-full blur-[130px] animate-pulse opacity-20" 
-        style={{ animationDelay: "4s" }} 
+        className="absolute bottom-[-10%] left-[-10%] w-[900px] h-[900px] bg-azure-600/10 rounded-full blur-[130px] opacity-20" 
       />
 
       {/* Layer 3: Grid Overlay - subtle structural element */}

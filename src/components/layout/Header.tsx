@@ -89,7 +89,7 @@ export function Header() {
         <Button variant="icon" size="sm">
           <Settings size={20} />
         </Button>
-        <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-violet-400 border border-border-subtle shadow-lg cursor-pointer hover:scale-105 transition-transform" />
+        <div className="w-9 h-9 rounded-full bg-primary border border-border-subtle shadow-lg cursor-pointer hover:scale-105 transition-transform" />
       </div>
     </header>
   );

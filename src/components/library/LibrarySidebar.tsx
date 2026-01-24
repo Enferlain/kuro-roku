@@ -16,6 +16,9 @@ import {
 } from "lucide-react";
 import { useAppStore } from "@/stores/appStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
+// CSS Module - will be used in subsequent tasks
+// @ts-expect-error - CSS module imported for future use
+import styles from "./LibrarySidebar.module.css";
 
 // Collapsible section
 function SidebarSection({
@@ -34,23 +37,23 @@ function SidebarSection({
   return (
     <div className="mb-2">
       <div
-        className="group flex items-center justify-between px-3 py-1.5 cursor-pointer hover:bg-secondary-background-hover rounded-lg transition-colors select-none"
+        className="group flex items-center justify-between px-3 py-1.5 cursor-pointer hover:bg-secondary-background-hover rounded-lg transition-colors duration-200 select-none"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
           <div
-            className={`text-muted-foreground/50 group-hover:text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
+            className={`text-muted-foreground/50 group-hover:text-muted-foreground transition-all duration-200 ${isOpen ? "rotate-90" : ""}`}
           >
             <ChevronRight size={12} />
           </div>
-          <span className="text-xs font-mono text-muted-foreground tracking-widest opacity-80 group-hover:opacity-100 font-medium">
+          <span className="text-xs font-mono text-muted-foreground tracking-widest opacity-80 group-hover:opacity-100 font-medium transition-opacity duration-200">
             {title}
           </span>
         </div>
         {action && (
           <div
             onClick={(e) => e.stopPropagation()}
-            className="opacity-0 group-hover:opacity-100 transition-opacity"
+            className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           >
             {action}
           </div>
@@ -86,7 +89,7 @@ function NavItem({
       className={`
         flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer group transition-all duration-200 ml-2
         ${active 
-          ? "bg-secondary-background-selected text-foreground shadow-sm ring-1 ring-border-subtle" 
+          ? "bg-secondary-background-selected text-foreground shadow-sm ring-1 ring-primary/30" 
           : "text-muted-foreground hover:bg-secondary-background-hover hover:text-foreground"
         }
       `}
@@ -97,11 +100,11 @@ function NavItem({
           className={
             active
               ? "text-primary"
-              : "text-muted-foreground group-hover:text-foreground"
+              : "text-muted-foreground group-hover:text-foreground transition-colors"
           }
         />
         <span
-          className="text-sm font-medium truncate max-w-[130px]"
+          className={`text-sm font-medium truncate max-w-[130px] ${active ? "text-foreground" : ""}`}
           title={label}
         >
           {label}
@@ -109,7 +112,11 @@ function NavItem({
       </div>
       {count !== undefined && (
         <span
-          className={`text-[10px] font-mono ${active ? "opacity-100" : "opacity-40"}`}
+          className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full ${
+            active 
+              ? "bg-primary/20 text-primary" 
+              : "bg-secondary-background text-muted-foreground group-hover:bg-secondary-background-hover"
+          }`}
         >
           {count}
         </span>
@@ -134,7 +141,7 @@ export function LibrarySidebar() {
   const displayedTags = showAllTags ? MOCK_TAGS : MOCK_TAGS.slice(0, 4);
 
   return (
-    <aside className="w-64 flex flex-col h-full pt-4 pb-6 pl-4 pr-2">
+    <aside className="w-64 flex flex-col h-full pt-6 pb-6 pl-6 pr-3 shrink-0">
       <ScrollArea className="flex-1 pr-2">
         {/* Quick Access */}
         <SidebarSection

@@ -48,7 +48,7 @@ export function AppShell() {
       <Header />
 
       {/* Tab Content */}
-      <div className="flex flex-1 overflow-hidden relative pb-4">
+      <div className="flex flex-1 overflow-hidden">
         {activeTab === "library" && <LibraryTab />}
         {activeTab === "staging" && <StagingTab />}
         {activeTab === "monitor" && <MonitorTab />}

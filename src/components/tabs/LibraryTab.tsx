@@ -6,7 +6,7 @@ import { LibraryDetails } from "@/components/library/LibraryDetails";
 
 export function LibraryTab() {
   return (
-    <>
+    <div className="flex flex-1 w-full h-full">
       {/* Left: Explorer Sidebar */}
       <LibrarySidebar />
 
@@ -15,6 +15,6 @@ export function LibraryTab() {
 
       {/* Right: Details Panel */}
       <LibraryDetails />
-    </>
+    </div>
   );
 }

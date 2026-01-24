@@ -118,7 +118,7 @@ export const Card: React.FC<CardProps> = ({
     : "";
 
   const selectedStyles = selected
-    ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+    ? "ring-2 ring-primary ring-offset-2 ring-offset-background shadow-[0_0_20px_-5px_rgba(139,92,246,0.3)]"
     : "";
 
   return (
