@@ -27,6 +27,8 @@ Thumbs.db
 # Build artifacts
 *.pem
 *.tsbuildinfo
+*.kiro
+*.agent
 
 # Logs
 *.log
@@ -49,4 +51,4 @@ src-tauri/target/
 qdrant_data/
 
 # References
-ui_references/
+!ui_references/
