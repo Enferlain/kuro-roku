@@ -3,15 +3,18 @@ import {
   Film,
   Download,
   Clock,
-  Layout,
   Star,
   Hash,
   ChevronRight,
   Plus,
-  Search,
+  AlertTriangle,
+  Sparkles,
+  HardDrive,
 } from "lucide-react";
 import { useAppStore } from "@/stores/appStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { SectionHeader } from "@/components/ui/shared";
+import { cn } from "@/lib/utils";
 
 // Collapsible section
 function SidebarSection({
@@ -30,26 +33,33 @@ function SidebarSection({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="mb-4">
+    <div className="mb-2">
       <div
-        className="group flex items-center justify-between px-2 py-1.5 cursor-pointer hover:bg-white/4 rounded-lg transition-colors select-none mb-1"
+        className="group flex items-center justify-between px-3 py-1.5 cursor-pointer hover:bg-glass-low rounded-lg transition-all duration-200 select-none mb-1 shadow-sm"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
           <div
-            className={`text-muted-foreground/30 group-hover:text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
+            className={cn(
+              "text-muted-foreground group-hover:text-foreground-hover transition-all duration-200",
+              isOpen ? "rotate-90" : ""
+            )}
           >
             <ChevronRight size={12} />
           </div>
-          {icon && <div className="text-muted-foreground/40">{icon}</div>}
-          <span className="text-[10px] font-mono text-muted-foreground/50 tracking-[0.15em] uppercase group-hover:text-foreground/80 transition-colors font-medium">
+          {icon && (
+            <div className="text-muted-foreground group-hover:text-foreground-hover transition-all duration-200">
+              {icon}
+            </div>
+          )}
+          <SectionHeader className="text-muted-foreground group-hover:text-foreground-hover transition-all duration-200 tracking-wider">
             {title}
-          </span>
+          </SectionHeader>
         </div>
         {action && (
           <div
             onClick={(e) => e.stopPropagation()}
-            className="opacity-0 group-hover:opacity-100 transition-opacity"
+            className="opacity-0 group-hover:opacity-100 transition-all duration-200"
           >
             {action}
           </div>
@@ -82,22 +92,30 @@ function NavItem({
   return (
     <div
       onClick={onClick}
-      className={`
-        flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer group transition-all duration-200 ml-2
-        ${active 
-          ? "bg-white/10 text-foreground border border-white/5 shadow-sm" 
-          : "text-muted-foreground/60 hover:bg-white/5 hover:text-foreground/90"
-        }
-      `}
+      className={cn(
+        "flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer group transition-all duration-200 ml-2 select-none",
+        active 
+          ? "bg-glass-high text-foreground-hover shadow-md ring-1 ring-glass-border-low font-bold" 
+          : "text-secondary-foreground hover:bg-glass-mid hover:text-foreground-hover"
+      )}
     >
       <div className="flex items-center gap-3 min-w-0">
-        <Icon size={18} className={`${active ? "text-[#8B5CF6]" : "text-muted-foreground/40 group-hover:text-muted-foreground/60"} transition-colors`} />
-        <span className={`text-sm font-medium truncate ${active ? "text-foreground" : ""}`}>
+        <Icon size={16} className={cn(
+          "transition-all duration-200",
+          active ? "text-primary filter drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]" : "text-muted-foreground group-hover:text-foreground-hover"
+        )} />
+        <span className={cn(
+          "text-sm font-medium truncate tracking-tight transition-colors duration-200",
+          active ? "text-foreground-hover" : ""
+        )}>
           {label}
         </span>
       </div>
       {count !== undefined && (
-        <span className={`text-[11px] font-mono ${active ? "text-foreground/40" : "text-muted-foreground/20 group-hover:text-muted-foreground/40"} transition-colors`}>
+        <span className={cn(
+          "text-[10px] font-mono transition-opacity",
+          active ? "opacity-100" : "opacity-30 group-hover:opacity-60"
+        )}>
           {count}
         </span>
       )}
@@ -114,13 +132,13 @@ const MOCK_TAGS = [
   { label: "B-roll", count: 8 },
 ];
 
-export function LibrarySidebar() {
+export function LibraryNavigation() {
   const { currentPath, resetToMock, activeSidebarItem, setActiveSidebarItem } = useAppStore();
 
   return (
-    <div className="flex flex-col h-full w-full bg-transparent p-4 select-none">
-      <ScrollArea className="flex-1">
-        <div className="space-y-6">
+    <div className="flex flex-col h-full w-full bg-transparent p-3 select-none">
+      <ScrollArea className="flex-1 pr-2">
+        <div className="space-y-2">
           {/* Quick Access */}
           <SidebarSection 
             title="Quick Access" 
@@ -145,21 +163,15 @@ export function LibrarySidebar() {
               active={activeSidebarItem === "Recent Scans"}
               onClick={() => setActiveSidebarItem("Recent Scans")}
             />
-            <NavItem 
-              icon={Star} 
-              label="Stared" 
-              active={activeSidebarItem === "Star"}
-              onClick={() => setActiveSidebarItem("Star")}
-            />
           </SidebarSection>
 
           {/* Sources */}
           <SidebarSection 
             title="Sources" 
-            action={<Plus size={14} className="text-muted-foreground/40 hover:text-foreground cursor-pointer transition-colors" />}
+            action={<Plus size={14} className="text-muted-foreground hover:text-foreground-hover cursor-pointer transition-colors" />}
           >
             <NavItem 
-              icon={Layout} 
+              icon={HardDrive} 
               label="D:\Videos" 
               active={activeSidebarItem === "D:\\Videos" || currentPath === "D:\\Videos\\Cooking"}
               onClick={() => {
@@ -167,9 +179,9 @@ export function LibrarySidebar() {
                 resetToMock();
               }}
             />
-            <div className="flex items-center gap-3 px-3 py-2 ml-2 text-muted-foreground/40 hover:text-muted-foreground/60 cursor-pointer transition-colors group">
+            <div className="flex items-center gap-3 px-3 py-2 ml-2 text-muted-foreground/40 hover:text-muted-foreground/60 cursor-pointer transition-colors group active:scale-[0.98]">
               <Plus size={16} />
-              <span className="text-sm font-medium">Add Source...</span>
+              <span className="text-[13px] font-bold tracking-tight">Add Source...</span>
             </div>
           </SidebarSection>
 
@@ -185,14 +197,14 @@ export function LibrarySidebar() {
               onClick={() => setActiveSidebarItem("Recent Added")}
             />
             <NavItem 
-              icon={Search} 
+              icon={AlertTriangle} 
               label="Unindexed" 
               count={5} 
               active={activeSidebarItem === "Unindexed"}
               onClick={() => setActiveSidebarItem("Unindexed")}
             />
             <NavItem 
-              icon={Star} 
+              icon={Sparkles} 
               label="Needs Review" 
               count={2}
               active={activeSidebarItem === "Review Needed"}

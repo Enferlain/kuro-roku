@@ -78,9 +78,7 @@ body {
   --primary: var(--primary-color);
   --primary-foreground: var(--primary-foreground);
   --secondary: var(--secondary-background);
-  --secondary-foreground: var(--secondary-foreground);
   --muted: var(--secondary-background);
-  --muted-foreground: var(--muted-foreground);
   --accent: var(--secondary-background-hover);
   --accent-foreground: var(--base-foreground);
   --destructive: var(--error-color);

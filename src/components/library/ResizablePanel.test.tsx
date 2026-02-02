@@ -13,8 +13,7 @@ describe('ResizablePanel - Property Tests', () => {
     fc.assert(
       fc.property(
         fc.integer({ min: -1000, max: 2000 }), // Arbitrary width values including out-of-bounds
-        fc.integer({ min: 200, max: 400 }), // Starting width within bounds
-        (attemptedWidth, startWidth) => {
+        (attemptedWidth) => {
           const minWidth = 200;
           const maxWidth = 400;
           
@@ -49,8 +48,7 @@ describe('ResizablePanel - Property Tests', () => {
     fc.assert(
       fc.property(
         fc.integer({ min: -1000, max: 2000 }), // Arbitrary width values including out-of-bounds
-        fc.integer({ min: 280, max: 480 }), // Starting width within bounds
-        (attemptedWidth, startWidth) => {
+        (attemptedWidth) => {
           const minWidth = 280;
           const maxWidth = 480;
           

@@ -1,9 +1,9 @@
 // LibraryTab - Main file browsing interface with resizable panels
 
 import { useState, useRef, useEffect } from "react";
-import { LibrarySidebar } from "@/components/library/LibrarySidebar";
+import { LibraryNavigation } from "@/components/library/LibraryNavigation";
 import { LibraryContent } from "@/components/library/LibraryContent";
-import { LibraryDetails } from "@/components/library/LibraryDetails";
+import { LibraryInspector } from "@/components/library/LibraryInspector";
 
 export function LibraryTab() {
   const [sidebarWidth, setSidebarWidth] = useState(256);
@@ -62,16 +62,16 @@ export function LibraryTab() {
   return (
     <div
       ref={containerRef}
-      className="flex h-full w-full overflow-hidden relative"
+      className="flex h-full w-full overflow-hidden relative gap-0"
     >
       {/* Sidebar Panel */}
       <div style={{ width: sidebarWidth }} className="h-full shrink-0 relative">
-        <LibrarySidebar />
+        <LibraryNavigation />
       </div>
 
       {/* Resizer: Sidebar <-> Content */}
       <div
-        className={`w-px h-full bg-white/10 hover:bg-primary/50 cursor-col-resize z-10 transition-colors relative flex justify-center
+        className={`w-px h-full bg-glass-border-low hover:bg-primary/50 cursor-col-resize z-10 transition-colors relative flex justify-center
           ${isResizing === "sidebar" ? "bg-primary" : ""}
         `}
         onMouseDown={startResizing("sidebar")}
@@ -81,13 +81,13 @@ export function LibraryTab() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 h-full min-w-0 bg-elevated-background/20">
+      <div className="flex-1 h-full min-w-0 bg-transparent flex flex-col">
         <LibraryContent />
       </div>
 
       {/* Resizer: Content <-> Details */}
       <div
-        className={`w-px h-full bg-white/10 hover:bg-primary/50 cursor-col-resize z-10 transition-colors relative flex justify-center
+        className={`w-px h-full bg-glass-border-low hover:bg-primary/50 cursor-col-resize z-10 transition-colors relative flex justify-center
           ${isResizing === "details" ? "bg-primary" : ""}
         `}
         onMouseDown={startResizing("details")}
@@ -98,7 +98,7 @@ export function LibraryTab() {
 
       {/* Details Panel */}
       <div style={{ width: detailsWidth }} className="h-full shrink-0 relative">
-        <LibraryDetails />
+        <LibraryInspector />
       </div>
     </div>
   );

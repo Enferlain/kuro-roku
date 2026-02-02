@@ -12,7 +12,7 @@
    6. Utilities
    ========================================================================== */
 
-@theme {
+:root {
   /* ========================================================================
      1. BASE PALETTE
      Raw color values - these are theme-agnostic building blocks
@@ -86,10 +86,7 @@
   /* Neutrals */
   --color-white: #ffffff;
   --color-black: #000000;
-}
 
-
-:root {
   /* ========================================================================
      2. SEMANTIC TOKENS (Light Mode - defaults)
      These reference the base palette and give meaning to colors
@@ -97,6 +94,7 @@
 
   /* Foreground (Text) */
   --base-foreground: var(--color-kuro-800);
+  --base-foreground-hover: var(--color-kuro-900);
   --secondary-foreground: var(--color-slate-600);
   --muted-foreground: var(--color-slate-400);
   --inverted-foreground: var(--color-white);
@@ -141,8 +139,18 @@
   --file-audio: var(--color-jade-400);
   --file-document: var(--color-gold-400);
   --file-other: var(--color-slate-400);
-}
 
+  /* Glassmorphism & Effects */
+  --glass-bg-low: rgba(255, 255, 255, 0.03);
+  --glass-bg-mid: rgba(255, 255, 255, 0.05);
+  --glass-bg-high: rgba(255, 255, 255, 0.1);
+  --glass-bg-dark: rgba(0, 0, 0, 0.4);
+  --glass-border-low: rgba(255, 255, 255, 0.05);
+  --glass-border-mid: rgba(255, 255, 255, 0.1);
+  
+  --primary-glow: 0 0 20px -5px rgba(139, 92, 246, 0.3);
+  --primary-glow-strong: 0 0 20px -3px rgba(139, 92, 246, 0.6);
+}
 
 .dark {
   /* ========================================================================
@@ -152,7 +160,8 @@
 
   /* Foreground (Text) */
   --base-foreground: var(--color-slate-100);
-  --secondary-foreground: var(--color-slate-200);
+  --base-foreground-hover: var(--color-white);
+  --secondary-foreground: var(--color-slate-300);
   --muted-foreground: var(--color-slate-400);
   --inverted-foreground: var(--color-kuro-800);
 
@@ -174,6 +183,11 @@
   --border-subtle: var(--color-kuro-200);
   --border-strong: var(--color-slate-600);
 
+  /* Glassmorphism Overrides (Dark theme specific tweaks if needed) */
+  --glass-bg-low: rgba(255, 255, 255, 0.02);
+  --glass-bg-mid: rgba(255, 255, 255, 0.04);
+  --glass-bg-high: rgba(255, 255, 255, 0.08);
+
   /* Shadows (darker in dark mode) */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
@@ -181,13 +195,13 @@
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
 }
 
-
 /* ========================================================================
    4. COMPONENT TOKENS
    More specific tokens for UI components
    ======================================================================== */
 
-:root, .dark {
+:root,
+.dark {
   /* Interface/Panel */
   --panel-background: var(--elevated-background);
   --panel-border: var(--border-subtle);
@@ -239,7 +253,6 @@
   --badge-info-foreground: var(--color-azure-400);
 }
 
-
 @theme inline {
   /* ========================================================================
      5. TAILWIND BRIDGE
@@ -248,6 +261,7 @@
 
   /* Foreground */
   --color-foreground: var(--base-foreground);
+  --color-foreground-hover: var(--base-foreground-hover);
   --color-base-foreground: var(--base-foreground);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted-foreground: var(--muted-foreground);
@@ -308,8 +322,18 @@
 
   /* Destructive */
   --color-destructive: var(--error-color);
-}
 
+  /* Glass & Effects Bridge */
+  --color-glass-low: var(--glass-bg-low);
+  --color-glass-mid: var(--glass-bg-mid);
+  --color-glass-high: var(--glass-bg-high);
+  --color-glass-dark: var(--glass-bg-dark);
+  --color-glass-border-low: var(--glass-border-low);
+  --color-glass-border-mid: var(--glass-border-mid);
+  
+  --shadow-primary-glow: var(--primary-glow);
+  --shadow-primary-glow-strong: var(--primary-glow-strong);
+}
 
 /* ========================================================================
    6. UTILITIES & GLOBAL STYLES

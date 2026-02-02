@@ -5,9 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased] - 2026-02-02
 
-## [0.2.0-dev] - 2026-01-24
+### Added
+
+- **TreeMap Resizable Cushion Panel**: Implemented resizable bottom panel in TreeMap view with drag-to-resize functionality (pixel-based height).
+
+### Changed
+
+- **Component Naming**: Renamed components for better clarity:
+  - `LibrarySidebar` → `LibraryNavigation` (handles navigation, sources, filters)
+  - `LibraryDetails` → `LibraryInspector` (handles file details, metadata, properties)
+- **Background Simplification**: Removed pixelated gradient blobs and noise texture for cleaner appearance, kept grid overlay and neutral background color.
+- **Transparency Unification**: Unified transparency across all panels (Navigation, Content, Inspector) for consistent visual appearance.
+- **Header Interactivity**: Added cursor-pointer and enhanced hover states to all interactive elements (logo, tabs, buttons).
+- **Sidebar Icons**: Updated navigation icons to match reference design:
+  - `HardDrive` for Sources
+  - `AlertTriangle` for Unindexed items
+  - `Sparkles` for items needing review
+- **Panel Spacing**: Unified gaps between Navigation, Content, and Inspector panels for consistent layout.
+
+### Fixed
+
+- **Component Exports**: Fixed export names to match new component naming (LibraryNavigation, LibraryInspector).
+
+## [Unreleased] - 2026-02-01
+
+### Added
+
+- **Glassmorphism & Effect Tokens** (`design-system.css`): New semantic tokens for various glass levels (`--glass-bg-*`, `--glass-border-*`) and primary brand glows (`--primary-glow`).
+- **Store Helper** (`appStore.ts`): Added `getSelectedFiles` utility for retrieving file objects from selection IDs.
+- **Directory Support**: Added `directory` to `FileType` and implemented visual support for folder structures in Library.
+
+### Changed
+
+- **UI Typography Hierarchy**: Enforced strict visual separation between folders and files.
+  - **Folders**: Now rendered in **Pure White** (`text-foreground-hover`) and **Bold** to serve as structural anchors.
+  - **Files**: Now rendered in **Grey** (`text-foreground/80`) and **Normal Weight** to sit lower in hierarchy.
+- **Design System Alignment**: Updated all font colors in `LibraryContent` and `TreeMap` to strictly follow `STYLING_GUIDE.md` tokens (replacing generic off-whites with semantic headers).
+
+### Fixed
+
+- **Styling Standards Compliance**: Removed all hardcoded color opacities and shadows from `Header`, `LibrarySidebar`, `LibraryContent`, `LibraryDetails`, `Button`, and `SearchInput`.
+- **Build Stability**: Resolved pre-existing TypeScript and lint errors in `ResizablePanel.test.tsx` and `appStore.test.ts` related to unused variables and missing store methods.
+- **Visual Accuracy**: Refined sidebar alignment, header action button sizing, and search input density to match reference library specifications.
+
+## 2026-01-24
 
 ### Added
 
@@ -56,7 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CSS refactored: `index.css` imports modular `design-system.css`
 - Added Inter + JetBrains Mono fonts from Google Fonts
 
-## [0.1.0] - 2026-01-21
+## 2026-01-21
 
 ### Added
 

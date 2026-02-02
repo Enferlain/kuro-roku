@@ -199,14 +199,14 @@ const TreeRow: React.FC<{
   return (
     <>
       <div 
-        className={`flex items-center h-8 hover:bg-white/4 text-[11px] transition-colors cursor-pointer border-b border-white/2 ${isSelected ? 'bg-primary/10 hover:bg-primary/20' : ''}`}
+        className={`flex items-center h-8 hover:bg-glass-low text-[11px] transition-colors cursor-pointer border-b border-glass-border-low ${isSelected ? 'bg-primary/10 hover:bg-primary/20' : ''}`}
         onClick={handleSelect}
       >
         <div className="flex-1 flex items-center min-w-[200px] pl-2 overflow-hidden">
           <div style={{ width: depth * 16 }} className="shrink-0" />
           <button 
             onClick={handleToggle}
-            className={`mr-1 p-0.5 rounded hover:bg-white/10 ${node.children.length === 0 ? 'opacity-0 cursor-default' : ''}`}
+            className={`mr-1 p-0.5 rounded hover:bg-glass-high ${node.children.length === 0 ? 'opacity-0 cursor-default' : ''}`}
           >
             {expanded ? <ChevronDown size={11} className="text-muted-foreground" /> : <ChevronRight size={11} className="text-muted-foreground" />}
           </button>
@@ -216,13 +216,13 @@ const TreeRow: React.FC<{
           ) : (
             <FileVideo size={12} className="mr-2 text-muted-foreground shrink-0 opacity-60" />
           )}
-          <span className={`truncate ${node.type === 'folder' ? 'font-bold text-foreground/80' : 'text-foreground/90'}`}>
+          <span className={`truncate ${node.type === 'folder' ? 'font-bold text-foreground-hover' : 'font-normal text-foreground/80'}`}>
             {node.name}
           </span>
         </div>
 
         <div className="w-24 px-4 flex items-center shrink-0">
-          <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+          <div className="flex-1 h-1.5 bg-glass-low rounded-full overflow-hidden border border-glass-border-low">
             <div 
               className="h-full bg-primary/40 shadow-[0_0_8px_rgba(139,92,246,0.3)]" 
               style={{ width: `${node.percentage}%` }} 
@@ -256,14 +256,62 @@ export const TreeMap: React.FC<{
   selectedIds: string[];
 }> = ({ files, onSelect, selectedIds }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [cushionHeightPx, setCushionHeightPx] = useState(200); // Pixel height
+  const [isResizing, setIsResizing] = useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   const rootNode = useMemo(() => buildFileTree(files), [files]);
   const rects = useMemo(() => getTiling(files, 1000, 300), [files]);
 
+  // Handle resize
+  const startResizing = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  React.useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing || !containerRef.current) return;
+      
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const containerHeight = containerRect.height;
+      const mouseY = e.clientY - containerRect.top;
+      
+      // Calculate pixel height from bottom
+      const newHeightPx = containerHeight - mouseY;
+      
+      // Clamp between 120px and half container height
+      const clampedHeight = Math.max(120, Math.min(containerHeight / 2, newHeightPx));
+      setCushionHeightPx(clampedHeight);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = 'row-resize';
+      document.body.style.userSelect = 'none';
+    } else {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+  }, [isResizing]);
+
   return (
-    <div className="flex flex-col h-full bg-transparent overflow-hidden">
-      <div className="flex-1 overflow-hidden flex flex-col min-h-0">
-        <div className="flex items-center h-7 bg-black/40 backdrop-blur-md border-b border-white/5 text-[9px] font-bold text-muted-foreground uppercase tracking-widest sticky top-0 z-10 px-2">
+    <div ref={containerRef} className="flex flex-col h-full w-full bg-transparent overflow-hidden relative">
+      {/* Tree List View */}
+      <div className="flex-1 overflow-hidden flex flex-col min-h-0" style={{ marginBottom: `${cushionHeightPx + 1}px` }}>
+        <div className="flex items-center h-7 bg-glass-dark backdrop-blur-md border-b border-glass-border-low text-[9px] font-bold text-muted-foreground uppercase tracking-widest sticky top-0 z-10 px-2">
           <div className="flex-1 pl-8">Structure</div>
           <div className="w-24 px-4">Usage</div>
           <div className="w-20 px-4 text-right">Size</div>
@@ -283,9 +331,21 @@ export const TreeMap: React.FC<{
         </div>
       </div>
 
-      <div className="h-1 bg-white/5 border-y border-white/5 cursor-row-resize hover:bg-primary/20 transition-colors" />
+      {/* Horizontal Resizer */}
+      <div 
+        className={`absolute left-0 right-0 h-px bg-glass-border-low hover:bg-primary/50 cursor-row-resize z-30 transition-colors flex items-center justify-center ${isResizing ? 'bg-primary' : ''}`}
+        style={{ bottom: `${cushionHeightPx}px` }}
+        onMouseDown={startResizing}
+      >
+        {/* Invisible hit area for easier grabbing */}
+        <div className="absolute inset-x-0 -top-2 -bottom-2 z-20 bg-transparent" />
+      </div>
 
-      <div className="h-[25%] min-h-[120px] relative bg-black/60 overflow-hidden shadow-inner">
+      {/* Cushion Treemap - Fixed at bottom */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 bg-glass-dark overflow-hidden shadow-inner border-t border-glass-border-low z-20" 
+        style={{ height: `${cushionHeightPx}px` }}
+      >
         {rects.map((rect) => {
           const isHovered = hoveredId === rect.item.path;
           const isSelected = selectedIds.includes(rect.item.path);
@@ -297,7 +357,7 @@ export const TreeMap: React.FC<{
               onClick={(e) => onSelect(rect.item.path, e.ctrlKey || e.metaKey)}
               onMouseEnter={() => setHoveredId(rect.item.path)}
               onMouseLeave={() => setHoveredId(null)}
-              className="absolute border border-black/40 transition-all duration-300 ease-out cursor-pointer overflow-hidden flex flex-col p-1.5"
+              className="absolute border border-glass-dark transition-all duration-300 ease-out cursor-pointer overflow-hidden flex flex-col p-1.5"
               style={{
                 left: `${(rect.x / 1000) * 100}%`,
                 top: `${(rect.y / 300) * 100}%`,
@@ -306,7 +366,7 @@ export const TreeMap: React.FC<{
                 backgroundColor: baseColor,
                 opacity: isHovered ? 1 : isSelected ? 1 : 0.6,
                 zIndex: isHovered ? 20 : isSelected ? 10 : 1,
-                boxShadow: isHovered || isSelected ? 'inset 0 0 0 1px rgba(255,255,255,0.4), 0 0 20px rgba(0,0,0,0.5)' : 'none',
+                boxShadow: isHovered || isSelected ? 'inset 0 0 0 1px var(--glass-border-mid), 0 0 20px rgba(0,0,0,0.5)' : 'none',
                 filter: isHovered ? 'brightness(1.2) saturate(1.2)' : 'brightness(1.0)',
               }}
               title={`${rect.item.file_name} (${formatSize(rect.item.file_size)})`}
@@ -316,7 +376,7 @@ export const TreeMap: React.FC<{
                   <span className="text-white font-bold text-[9px] truncate leading-none drop-shadow-lg uppercase tracking-tighter">
                     {rect.item.file_name}
                   </span>
-                  <span className="text-white/40 text-[8px] font-mono leading-none truncate">
+                  <span className="text-muted-foreground/40 text-[8px] font-mono leading-none truncate">
                     {formatSize(rect.item.file_size)}
                   </span>
                 </div>

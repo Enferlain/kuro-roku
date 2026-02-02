@@ -23,10 +23,6 @@ const fileIdArb = fc.string({ minLength: 1, maxLength: 20 }).map(s => `file_${s}
 // Arbitrary for generating arrays of unique file IDs
 const fileIdsArb = fc.uniqueArray(fileIdArb, { minLength: 0, maxLength: 50 });
 
-// Arbitrary for generating a subset of file IDs (for selection state)
-const subsetArb = (fileIds: string[]) => 
-  fc.array(fc.constantFrom(...fileIds)).map(arr => [...new Set(arr)]);
-
 describe('Store Selection Logic - Property Tests', () => {
   beforeEach(() => {
     // Reset store state before each test

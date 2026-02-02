@@ -4,7 +4,7 @@ export type AppTab = "library" | "staging" | "monitor" | "workbench";
 
 export type ViewMode = "grid" | "list" | "treemap";
 
-export type FileType = "video" | "image" | "audio" | "document" | "other";
+export type FileType = "directory" | "video" | "image" | "audio" | "document" | "other";
 
 export type FileStatus = "indexed" | "pending" | "processing" | "error";
 

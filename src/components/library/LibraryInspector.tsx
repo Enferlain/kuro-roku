@@ -271,7 +271,7 @@ const SingleFileView = ({ file }: { file: any }) => {
   );
 };
 
-export function LibraryDetails() {
+export function LibraryInspector() {
   const { files, selectedFileIds, deselectAll } = useAppStore();
   const selectedFiles = files.filter((f) => selectedFileIds.includes(f.path));
   const hasSelection = selectedFiles.length > 0;
@@ -279,9 +279,9 @@ export function LibraryDetails() {
   const singleFile = isMulti ? null : selectedFiles[0];
 
   return (
-    <div className="w-full flex flex-col h-full bg-glass-dark backdrop-blur-md overflow-hidden">
+    <div className="w-full flex flex-col h-full bg-transparent overflow-hidden">
       {/* Header */}
-      <div className="h-14 flex items-center justify-between px-4 border-b border-glass-border-low bg-glass-low shrink-0">
+      <div className="h-14 flex items-center justify-between px-4 border-b border-glass-border-low bg-transparent shrink-0">
         <div className="flex items-center gap-2">
           <Activity size={14} className="text-primary opacity-70" />
           <h2 className="text-xs font-mono text-muted-foreground tracking-widest uppercase font-medium">
